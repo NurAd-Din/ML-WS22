@@ -1,1 +1,1 @@
-print('why')
+print('test')
