@@ -182,21 +182,21 @@ for idx in range(3):
     plt.show()
 
 
-# # uncomment following lines to generate the result
-# # for different number of modes k plot the log likelihood for data3
-# num = 14
-# logLikelihood = np.zeros(num)
-# for k in range(num):
-#     # compute GMM
-#     weights, means, covariances = estGaussMixEM(data[2], k+1, n_iter, epsilon)
-#     logLikelihood[k] = getLogLikelihood(means, weights, covariances, data[2])
-#
-# # plot result
-# plt.subplot()
-# plt.plot(range(num),logLikelihood)
-# plt.title('Loglikelihood for different number of k on Data 3')
-# plt.show()
-#
+# uncomment following lines to generate the result
+# for different number of modes k plot the log likelihood for data3
+num = 14
+logLikelihood = np.zeros(num)
+for k in range(num):
+    # compute GMM
+    weights, means, covariances = estGaussMixEM(data[2], k+1, n_iter, epsilon)
+    logLikelihood[k] = getLogLikelihood(means, weights, covariances, data[2])
+
+# plot result
+plt.subplot()
+plt.plot(range(num),logLikelihood)
+plt.title('Loglikelihood for different number of k on Data 3')
+plt.show()
+
 # # skin detection
 # print('\n')
 # print('(g) performing skin detection with GMMs')

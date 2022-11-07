@@ -30,6 +30,6 @@ def getLogLikelihood(means, weights, covariances, X):
             x_m = X[i, :] - means[j, :]
             scale = 1 / ((np.sqrt(2 * np.pi) ** d) * np.sqrt(np.linalg.det(covariances[:, :, j])))
             sum_inner += weights[j] * scale * np.exp(- 0.5 * np.linalg.solve(covariances[:, :, j], x_m).T.dot(x_m))
-            logLikelihood += np.log(sum_inner)
+        logLikelihood += np.log(sum_inner)
 
     return logLikelihood
