@@ -15,7 +15,7 @@ def regularize_cov(covariance, epsilon):
     #####Insert your code here for subtask 6d#####
 
     d, x = covariance.shape
-    id = np.eye(d)
-    regularized_cov = covariance + epsilon * id
+    ident = np.eye(d)
+    regularized_cov = covariance + epsilon * ident
 
     return regularized_cov

@@ -16,7 +16,7 @@ def estGaussMixEM(data, K, n_iters, epsilon):
     # OUTPUT:
     # weights        : mixture weights - P(j) from lecture
     # means          : means of gaussians
-    # covariances    : covariancesariance matrices of gaussians
+    # covariances    : covariance matrices of gaussians
     # logLikelihood  : log-likelihood of the data given the model
 
     #####Insert your code here for subtask 6e#####
@@ -34,17 +34,14 @@ def estGaussMixEM(data, K, n_iters, epsilon):
         for i in range(K):
             # compute sum of distances in cluster
             dist = np.mean(euclidean_distances(data_cluster, [means[i]], squared=True))
-        if dist < min_dist:
-            min_dist = dist
+            if dist < min_dist:
+                min_dist = dist
         covariances[:, :, j] = np.eye(n_dim) * min_dist
 
-    logLikelihood_old = -1
-    logLikelihood_new = -2
-    while logLikelihood_old != logLikelihood_new:
-        logLikelihood_old = logLikelihood_new
+    for i in range(n_iters):
         for j in range(K):
             covariances[:, :, j] = regularize_cov(covariances[:, :, j], epsilon)
         _, gamma = EStep(means, covariances, weights, data)
-        weights, means, covariances, logLikelihood_new = MStep(gamma, data)
+        weights, means, covariances, _ = MStep(gamma, data)
 
     return [weights, means, covariances]

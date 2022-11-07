@@ -21,30 +21,24 @@ def EStep(means, covariances, weights, X):
 
     #####Insert your code here for subtask 6b#####
 
-    weights = np.asarray(weights)
-    means = np.asarray(means)
-
     logLikelihood = getLogLikelihood(means, weights, covariances, X)
 
+    weights = np.asarray(weights)
+    means = np.asarray(means)
     n, d = X.shape
     k, d = means.shape
-
-    sum_inner = 0
-    gamma = np.zeros((n,k))
+    gamma = np.zeros((n, k))
 
     for i in range(n):
         sum_inner = 0
         for j in range(k):
+            x_m = X[i, :] - means[j, :]
             scale = (1 / (np.sqrt(2 * np.pi) ** d) * np.sqrt(np.linalg.det(covariances[:, :, j])))
-            sum_inner += weights[j] * scale * np.exp(- 0.5 * np.matmul((X[i, :] - means[j, :]),
-                                                                       np.matmul(np.linalg.inv(covariances[:, :, j]),
-                                                                                 np.transpose(X[i, :] - means[j, :]))))
-
+            sum_inner += weights[j] * scale * np.exp(- 0.5 * np.linalg.solve(covariances[:, :, j], x_m).T.dot(x_m))
         for j in range(k):
+            x_m = X[i, :] - means[j, :]
             scale = (1 / (np.sqrt(2 * np.pi) ** d) * np.sqrt(np.linalg.det(covariances[:, :, j])))
-            gamma[i, j] = weights[j] * scale * np.exp(- 0.5 * np.matmul((X[i, :] - means[j, :]),
-                                                                       np.matmul(np.linalg.inv(covariances[:, :, j]),
-                                                                                 np.transpose(X[i, :] - means[j, :]))))
+            gamma[i, j] = weights[j] * scale * np.exp(- 0.5 * np.linalg.solve(covariances[:, :, j], x_m).T.dot(x_m))
             gamma[i, j] = gamma[i, j] / sum_inner
 
     return [logLikelihood, gamma]
