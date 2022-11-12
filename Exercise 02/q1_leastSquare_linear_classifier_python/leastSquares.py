@@ -15,4 +15,12 @@ def leastSquares(data, label):
     #####Insert your code here for subtask 1a#####
     # Extend each datapoint x as [1, x]
     # (Trick to avoid modeling the bias term explicitly)
+
+    num_samples, dim = data.shape
+    x = np.ones((num_samples, 1))
+    x = np.concatenate([x, data], axis=1)
+    weight = np.linalg.pinv(x).dot(label)
+    bias = weight[0]
+    weight = weight[1:(dim + 1)]
+
     return weight, bias

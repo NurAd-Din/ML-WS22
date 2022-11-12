@@ -11,6 +11,11 @@ def linclass(weight, bias, data):
 
     #####Insert your code here for subtask 1b#####
     # Perform linear classification i.e. class prediction
+
+    class_pred = data.dot(weight) + bias
+    class_pred[class_pred > 0] = 1
+    class_pred[class_pred < 0] = -1
+
     return class_pred
 
 
