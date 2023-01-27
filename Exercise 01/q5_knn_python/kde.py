@@ -12,16 +12,12 @@ def kde(samples, h):
     #####Insert your code here for subtask 5a#####
 
     pos = np.arange(-5, 5.0, 0.1)  # Returns a 100 dimensional vector
-    ones = np.ones((100, 100))
-    pos_mat = pos * ones
-    pos_mat = np.transpose(pos_mat)
-    diff_mat = pos_mat - samples
-    diff_mat = np.transpose(diff_mat)
-    diff_mat = np.absolute(diff_mat)
-    bool_mat = diff_mat < h
-    estDensity = np.count_nonzero(bool_mat, axis=0)
-    estDensity = estDensity / (100 * 2 * h)
-    estDensity = np.column_stack((pos, estDensity))
+
+    N, = samples.shape
+    norm = N * np.sqrt(2 * np.pi) * h
+    estDensity = np.sum(np.exp(-(((pos[np.newaxis, :] - samples[:, np.newaxis]) ** 2)/ (2 * (h ** 2)))), axis=0) / norm
+
+    estDensity = np.stack((pos, estDensity), axis=1)
 
     # Compute the number of samples created
     return estDensity
